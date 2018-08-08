@@ -222,7 +222,7 @@
         			<ul class="nav navbar-nav">
               	<li class="tasks-menu">
               	<%
-              	String  simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd").format(new Date());
+              	String  simpleDateFormat = new SimpleDateFormat("YYYY-MM").format(new Date());
               	%>
               	<input type="text" class="jeinput" style="float: left;" id="searchtime" placeholder="<c:if test="${empty search }"><%=simpleDateFormat%></c:if><c:if test="${ not empty search }">${search }</c:if>" class="form-control" />
               	</li>

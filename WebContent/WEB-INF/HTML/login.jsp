@@ -36,9 +36,9 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg" style="color:red;" id="meg">&nbsp;&nbsp;&nbsp;</p>
 
-    <form action="/SSM/login" method="post">
+    <form id="form" action="/SSM/login" method="post">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" name="sId" placeholder="学生号">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -74,7 +74,7 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">登&nbsp;陆</button>
+          <button id="submit" type="submit" class="btn btn-primary btn-block btn-flat">登&nbsp;陆</button>
         </div>
         <!-- /.col -->
       </div>
@@ -99,6 +99,45 @@
 <script src="/SSM/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="/SSM/static/plugins/iCheck/icheck.min.js"></script>
+<script>
+	$("#submit").click(function(check){
+		
+		var verify = $("input[name='verification']").val();
+		if(verify.length==5){//判断
+			//equality 相等
+			var iseq = verify == '<%=session.getAttribute("capText")%>';
+			//alert(iseq);
+			if(!iseq){
+				$("#vir").attr('src','./captcha/getCaptchaImage.do?'+Math.floor(Math.random()*100) );
+				$("#meg").text("验证码输入错误");
+				$("input[name='verification']").val("")
+				check.preventDefault();
+			}
+		} else{
+			$("#meg").text("请输入验证码");
+			$("#vir").attr('src','./captcha/getCaptchaImage.do?'+Math.floor(Math.random()*100) );
+			//$("#from").submit(false);//阻止提交
+			check.preventDefault();//阻止提交
+		}
+	});
+	
+	//输入框判断
+	$("input[name='sId']").blur(function(){
+		var input = $("input[name='sId']").val();
+		  if(isNaN(input)){
+			  if(input.length > 8){
+				  //成功不显示任何东西
+			  }else{
+				  $("#meg").text("id号最少为8位");
+			  }
+		  }else{
+			  $("#meg").text("id必须为数字");
+		  }
+		  
+	});
+	
+</script>
+
 <script>
   $(function () {
     $('input').iCheck({
