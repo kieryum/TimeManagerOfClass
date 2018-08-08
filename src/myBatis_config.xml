@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!--  加载db配置文件 -->
+	<properties resource="db.properties"/>
+	<settings>
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
+	<!-- 类型取别名  -->
+	<typeAliases>
+		<!-- <typeAlias type="com.hx.entity.User" alias="abc" /> -->
+		<!-- 将包下的类统一取别名, 别名就是类的名字   -->
+		<package name="com.hx.entity"/>
+	</typeAliases>
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"></transactionManager>
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}"/>
+				<property name="url" value="${jdbc.url}"/>
+				<property name="username" value="${jdbc.username}"/>
+				<property name="password" value="${jdbc.userpassword}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<!-- <mapper class="com.hx.mapper.UserMapper" /> -->
+		<package name="com.hx.mapper"/>
+	</mappers>
+</configuration>

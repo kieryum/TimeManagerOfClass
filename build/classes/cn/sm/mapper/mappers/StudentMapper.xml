@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.sm.mapper.StudentMapper" >
+  <resultMap id="BaseResultMap" type="cn.sm.entity.Student" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="s_id" property="sId" jdbcType="BIGINT" />
+    <result column="s_name" property="sName" jdbcType="VARCHAR" />
+    <result column="s_email" property="sEmail" jdbcType="VARCHAR" />
+    <result column="s_passwd" property="sPasswd" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, s_id, s_name, s_email, s_passwd
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserPasswd" parameterType="Map" resultMap="BaseResultMap" >
+  	SELECT 
+  	<include refid="Base_Column_List" /> 
+  	FROM student WHERE s_id=#{sid,jdbcType=BIGINT} AND s_passwd =#{passwd,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from student
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.sm.entity.Student" >
+    insert into student (id, s_id, s_name, 
+      s_email, s_passwd)
+    values (#{id,jdbcType=INTEGER}, #{sId,jdbcType=BIGINT}, #{sName,jdbcType=VARCHAR}, 
+      #{sEmail,jdbcType=VARCHAR}, #{sPasswd,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.sm.entity.Student" >
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sId != null" >
+        s_id,
+      </if>
+      <if test="sName != null" >
+        s_name,
+      </if>
+      <if test="sEmail != null" >
+        s_email,
+      </if>
+      <if test="sPasswd != null" >
+        s_passwd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sId != null" >
+        #{sId,jdbcType=BIGINT},
+      </if>
+      <if test="sName != null" >
+        #{sName,jdbcType=VARCHAR},
+      </if>
+      <if test="sEmail != null" >
+        #{sEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="sPasswd != null" >
+        #{sPasswd,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.sm.entity.Student" >
+    update student
+    <set >
+      <if test="sId != null" >
+        s_id = #{sId,jdbcType=BIGINT},
+      </if>
+      <if test="sName != null" >
+        s_name = #{sName,jdbcType=VARCHAR},
+      </if>
+      <if test="sEmail != null" >
+        s_email = #{sEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="sPasswd != null" >
+        s_passwd = #{sPasswd,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.sm.entity.Student" >
+    update student
+    set s_id = #{sId,jdbcType=BIGINT},
+      s_name = #{sName,jdbcType=VARCHAR},
+      s_email = #{sEmail,jdbcType=VARCHAR},
+      s_passwd = #{sPasswd,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getMaxSid" resultType="java.lang.Long">
+  	SELECT MAX(s_id) FROM student
+  </select>
+</mapper>
